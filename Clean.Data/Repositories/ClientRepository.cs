@@ -19,7 +19,7 @@ namespace Clean.Data.Repositories
 
         public List<Client> GetClients()
         {
-            return _dataContext.clientsLst;
+            return _dataContext.clientsLst.ToList();
         }
     }
 }

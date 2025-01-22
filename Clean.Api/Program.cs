@@ -1,8 +1,8 @@
 using Clean.Core.Repositories;
 using Clean.Core.Services;
+using Clean.Service;
 using Clean.Data;
 using Clean.Data.Repositories;
-using Clean.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +20,7 @@ builder.Services.AddScoped<IClientService,ClientService>();
 builder.Services.AddScoped<IClientRepository,ClientRepository>();
 
 //הזרקה של הדטה לפרויקט
-builder.Services.AddSingleton<DataContext>();
+builder.Services.AddDbContext<DataContext>();
 
 var app = builder.Build();
 
