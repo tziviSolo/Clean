@@ -1,4 +1,5 @@
 ﻿using Clean.Core.Entities;
+using Clean.Core.Repositories;
 using Clean.Core.Services;
 using Clean.Service;
 using Microsoft.AspNetCore.Mvc;
@@ -10,9 +11,9 @@ namespace Clean.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
 
-    public class ClientController(IClientService clientService) : ControllerBase
+    public class ClientController(IService<Client> clientService) : ControllerBase
     {
-        private readonly IClientService _clientService = clientService;
+        private readonly IService<Client> _clientService = clientService;
 
         // GET: api/<ClientController>
         [HttpGet]
@@ -25,25 +26,28 @@ namespace Clean.API.Controllers
         [HttpGet("{id}")]
         public Client? Get(int id)
         {
-            return _clientService.GetAll().Find(c => c.Id == id);
+            return _clientService.GetById(id);
         }
 
         // POST api/<ClientController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] Client newClient)
         {
+            _clientService.Add(newClient);
         }
 
         // PUT api/<ClientController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
+        public void Put(int id, [FromBody] Client updatedClient)
+        {   
+            _clientService.Update(id, updatedClient);
         }
 
         // DELETE api/<ClientController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            _clientService.Delete(id);
         }
     }
 }

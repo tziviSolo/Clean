@@ -9,13 +9,31 @@ using System.Threading.Tasks;
 
 namespace Clean.Service
 {
-    public class OrderService(IEntityRepository<Order> orders) : IOrderService
+    public class OrderService(IEntityRepository<Order> orders) : IService<Order>
     {
         private readonly IEntityRepository<Order> _clientRepository = orders;
 
-        public List<Order> GetAll()
+        public IEnumerable<Order> GetAll()
         {
-            return _clientRepository.GetAll().ToList();
+            return _clientRepository.GetAll();
+        }
+
+        public Order? GetById(int id)
+        {
+            return _clientRepository.GetById(id);
+        }
+        public void Add(Order order)
+        {
+            _clientRepository.Add(order);
+        }
+
+        public void Update(int id, Order order)
+        {
+            _clientRepository.Update(id, order);
+        }
+        public void Delete(int id)
+        {
+            _clientRepository.Delete(id);
         }
     }
 }

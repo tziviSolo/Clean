@@ -12,5 +12,13 @@ namespace Clean.Core.Entities
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+
+        //רשימת הצילומים שהקליינט הזמין
+        public List<Order> Orders { get; set; }
+
+        public override string ToString()
+        {
+            return $"Email : {Email} ,FirstName : {FirstName}";
+        }
     }
 }

@@ -28,15 +28,21 @@ namespace Clean.Data.Repositories
             return entity;
         }
 
-        public T Update(T entity)
+        public T Update(int id, T entity)
         {
-            _dbSet.Update(entity);
+            var existEntity = _dbSet.Find(id);
+            if (existEntity != null)
+            {
+                _dbSet.Entry(existEntity).CurrentValues.SetValues(entity);
+            }
             return entity;
         }
 
-        public void Delete(T entity)
+        public void Delete(int id)
         {
-            _dbSet.Remove(entity);
+            var entity = _dbSet.Find(id);
+            if (entity != null)
+                _dbSet.Remove(entity);
         }
     }
 }

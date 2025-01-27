@@ -10,8 +10,9 @@ namespace Clean.Data
 {
     public class DataContext : DbContext
     {
-        public DbSet<Client> clientsLst { get; set; }
-        public DbSet<Order> ordersLst { get; set; }
+        public DbSet<Client> Clients { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<Photography> Photogs { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

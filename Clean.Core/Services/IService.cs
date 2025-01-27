@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Clean.Core.Repositories
+namespace Clean.Core.Services
 {
-    public interface IEntityRepository<T> where T : class
+    public interface IService<T> where T : class
     {
         IEnumerable<T> GetAll();
         T? GetById(int id);
-        T Add(T entity);
-        T Update(int id,T entity);
+        void Add(T entity);
+        void Update(int id, T entity);
         void Delete(int id);
     }
 }

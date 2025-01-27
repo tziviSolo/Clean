@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Clean.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250122151349_create-database")]
-    partial class CreateDatabase
+    [Migration("20250127164228_One-To-Many")]
+    partial class OneToMany
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,7 +47,7 @@ namespace Clean.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("clientsLst");
+                    b.ToTable("Clients");
                 });
 
             modelBuilder.Entity("Clean.Core.Entities.Order", b =>
@@ -58,15 +58,75 @@ namespace Clean.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("DateOfOrder")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("DateOfPictures")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("PhotographyId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.ToTable("ordersLst");
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("PhotographyId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("Clean.Core.Entities.Photography", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Photogs");
+                });
+
+            modelBuilder.Entity("Clean.Core.Entities.Order", b =>
+                {
+                    b.HasOne("Clean.Core.Entities.Client", "Client")
+                        .WithMany("Orders")
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Clean.Core.Entities.Photography", "Photography")
+                        .WithMany("Orders")
+                        .HasForeignKey("PhotographyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+
+                    b.Navigation("Photography");
+                });
+
+            modelBuilder.Entity("Clean.Core.Entities.Client", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("Clean.Core.Entities.Photography", b =>
+                {
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }
