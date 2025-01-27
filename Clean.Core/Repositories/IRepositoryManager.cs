@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace Clean.Core.Repositories
 {
-    public interface IClientRepository
+    public interface IRepositoryManager
     {
-        List<Client> GetClients();
+        IEntityRepository<Client> Clients { get; }
+        IEntityRepository<Order> Orders { get; }
+        void Save();
     }
 }

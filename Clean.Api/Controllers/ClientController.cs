@@ -8,15 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace Clean.API.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController] 
-    
-    public class ClientController : ControllerBase
+    [ApiController]
+
+    public class ClientController(IClientService clientService) : ControllerBase
     {
-        private readonly IClientService _clientService;
-        public ClientController(IClientService clientService)
-        {
-            _clientService = clientService;
-        }
+        private readonly IClientService _clientService = clientService;
+
         // GET: api/<ClientController>
         [HttpGet]
         public IEnumerable<Client> Get()
@@ -26,9 +23,9 @@ namespace Clean.API.Controllers
 
         // GET api/<ClientController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public Client? Get(int id)
         {
-            return "value";
+            return _clientService.GetAll().Find(c => c.Id == id);
         }
 
         // POST api/<ClientController>

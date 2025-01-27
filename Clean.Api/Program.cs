@@ -3,6 +3,7 @@ using Clean.Core.Services;
 using Clean.Service;
 using Clean.Data;
 using Clean.Data.Repositories;
+using Clean.Core.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,9 +16,17 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddCors(opt => opt.AddPolicy("MyPolicyName", policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
 
-//עבור כל ישות בפרויקט צריך 2 הזרקות
+//ניהול כל הישויות בפרויקט
+builder.Services.AddScoped<IRepositoryManager, RepositoryManager>();
+
+//עבור כל ישות 2 הזרקות
+//Client
 builder.Services.AddScoped<IClientService,ClientService>();
-builder.Services.AddScoped<IClientRepository,ClientRepository>();
+builder.Services.AddScoped<IEntityRepository<Client>,EntityRepository<Client>>();
+
+//Order
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IEntityRepository<Order>,EntityRepository<Order>>();
 
 //הזרקה של הדטה לפרויקט
 builder.Services.AddDbContext<DataContext>();

@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Clean.Service
 {
-    public class ClientService(IEntityRepository<Client> clients) : IClientService
+    public class OrderService(IEntityRepository<Order> orders) : IOrderService
     {
-        private readonly IEntityRepository<Client> _clientRepository = clients;
+        private readonly IEntityRepository<Order> _clientRepository = orders;
 
-        public List<Client> GetAll()
+        public List<Order> GetAll()
         {
             return _clientRepository.GetAll().ToList();
         }
