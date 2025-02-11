@@ -11,29 +11,31 @@ namespace Clean.Service
 {
     public class OrderService(IEntityRepository<Order> orders) : IService<Order>
     {
-        private readonly IEntityRepository<Order> _clientRepository = orders;
+        private readonly IEntityRepository<Order> _orderRepository = orders;
 
         public IEnumerable<Order> GetAll()
         {
-            return _clientRepository.GetAll();
+            return _orderRepository.GetAll();
         }
 
         public Order? GetById(int id)
         {
-            return _clientRepository.GetById(id);
+            return _orderRepository.GetById(id);
         }
-        public void Add(Order order)
+        public Order Add(Order order)
         {
-            _clientRepository.Add(order);
+            var added = _orderRepository.Add(order);
+            return added;
         }
 
-        public void Update(int id, Order order)
+        public Order Update(int id, Order order)
         {
-            _clientRepository.Update(id, order);
+           var updated = _orderRepository.Update(id, order);
+            return updated;
         }
         public void Delete(int id)
         {
-            _clientRepository.Delete(id);
+            _orderRepository.Delete(id);
         }
     }
 }

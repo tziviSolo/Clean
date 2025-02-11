@@ -11,9 +11,10 @@ namespace Clean.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
 
-    public class ClientController(IService<Client> clientService) : ControllerBase
+    public class ClientController(IService<Client> clientService, IRepositoryManager repositoryManager) : ControllerBase
     {
         private readonly IService<Client> _clientService = clientService;
+        private readonly IRepositoryManager _repositoryManager = repositoryManager;
 
         // GET: api/<ClientController>
         [HttpGet]
@@ -31,16 +32,20 @@ namespace Clean.API.Controllers
 
         // POST api/<ClientController>
         [HttpPost]
-        public void Post([FromBody] Client newClient)
+        public ActionResult Post([FromBody] Client newClient)
         {
-            _clientService.Add(newClient);
+            var posted = _clientService.Add(newClient);
+            _repositoryManager.Save();
+            return Ok(posted);
         }
 
         // PUT api/<ClientController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Client updatedClient)
-        {   
-            _clientService.Update(id, updatedClient);
+        public ActionResult Put(int id, [FromBody] Client updatedClient)
+        {
+            var updated = _clientService.Update(id, updatedClient);
+            _repositoryManager.Save();
+            return Ok(updated);
         }
 
         // DELETE api/<ClientController>/5
@@ -48,6 +53,7 @@ namespace Clean.API.Controllers
         public void Delete(int id)
         {
             _clientService.Delete(id);
+            _repositoryManager.Save();
         }
     }
 }

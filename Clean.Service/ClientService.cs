@@ -23,14 +23,16 @@ namespace Clean.Service
             return _clientRepository.GetById(id);
         }
 
-        public void Add(Client client)
+        public Client Add(Client client)
         {
-            _clientRepository.Add(client);
+            var added = _clientRepository.Add(client);
+            return added;
         }
 
-        public void Update(int id, Client client)
+        public Client Update(int id, Client client)
         {
-            _clientRepository.Update(id, client);
+            var updated = _clientRepository.Update(id, client);
+            return updated;
         }
         public void Delete(int id)
         {
